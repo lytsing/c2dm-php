@@ -22,7 +22,11 @@
 include_once('c2dm.php');
 
 $c2dm = new c2dm();
-$c2dm->getAuthToken("your-gmail", "yoour-gmail-passwd");
+$result = $c2dm->getAuthToken("your-gmail", "yoour-gmail-passwd");
+if (!$result) {
+	echo "get auth token error";
+}
+
 $c2dm->sendMessage("long-registration ID", 1);
  
 ?>

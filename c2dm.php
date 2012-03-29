@@ -30,8 +30,15 @@ class c2dm {
 	 */
 	function getAuthToken($username, $password) {
 
+		if (empty($username) || empty($password)) {
+			throw new Exception("username, password must all be set to get auth token");
+		}
+
 		// Initialize the curl object
 		$curl = curl_init();
+		if (!$curl) {
+			return false;
+		}
 
 		curl_setopt($curl, CURLOPT_URL, "https://www.google.com/accounts/ClientLogin");
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -51,6 +58,10 @@ class c2dm {
 		$response = curl_exec($curl);
 		curl_close($curl);
 
+		if (strpos($response, '200 OK') === false) {
+			return false;
+		}
+
 		// Get the Auth string
 		preg_match("/Auth=([a-z0-9_\-]+)/i", $response, $matches);
 		$this->authString = $matches[1];
@@ -63,8 +74,8 @@ class c2dm {
 		$headers[] = 'Authorization: GoogleLogin auth='.$this->authString;
 		$data = array(
 			'registration_id' => $deviceRegistrationId,
-			'collapse_key' => $msgType,
-			'data.message' => 'Hello, c2dm' //TODO: Add your data here.
+			'collapse_key'    => $msgType,
+			'data.message'    => 'Hello, c2dm' //TODO: Add your data here.
 		);
 
 		$curl = curl_init();
