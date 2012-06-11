@@ -55,15 +55,17 @@ class c2dm {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
-		$response = curl_exec($curl);
+		$response_data = curl_exec($curl);
+		$response_info = curl_getinfo($curl);
+		
 		curl_close($curl);
 
-		if (strpos($response, '200 OK') === false) {
+		if ($response_info['http_code'] == 403) {
 			return false;
 		}
 
 		// Get the Auth string
-		preg_match("/Auth=([a-z0-9_\-]+)/i", $response, $matches);
+		preg_match("/Auth=([a-z0-9_\-]+)/i", $response_data, $matches);
 		$this->authString = $matches[1];
 	}
 
