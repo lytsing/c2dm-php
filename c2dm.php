@@ -80,7 +80,7 @@ class c2dm {
 		}
 		
 		// Filter Auth-Token from within the response
-		if(preg_match("/Auth=([a-z0-9_\-]+)/i", $response_data, $matches) == 2) {
+		if(preg_match("/Auth=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
 			//Store Auth-Token
 			$this->authString = $matches[1];
 			
@@ -127,11 +127,11 @@ class c2dm {
 		
 		if ($response_info['http_code'] == 200) {
 			// Filter message-id or error from response
-			if(preg_match("/id=([a-z0-9_\-]+)/i", $response_data, $matches) == 2) {
+			if(preg_match("/id=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
 				
 				return $matches[1];
 				
-			} else if(preg_match("/Error=([a-z0-9_\-]+)/i", $response_data, $matches) == 2) {
+			} else if(preg_match("/Error=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
 				
 				throw new Exception($matches[1]);
 				
