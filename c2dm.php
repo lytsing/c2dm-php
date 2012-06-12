@@ -23,8 +23,22 @@
 
 class c2dm {
 	
+	private static $instance = null;
+	
+	
+	private function __construct() {
+	}
+	
+	public static function getInstance() {
+		if(!c2dm::$instance) {
+			c2dm::$instance = new c2dm();
+		}
+		
+		return c2dm::$instance;
+	}
+	
 	private $authString = "";
-
+	
 	/**
 	 * Get Google login auth token
 	 * @see http://code.google.com/apis/accounts/docs/AuthForInstalledApps.html
