@@ -127,7 +127,7 @@ class c2dm {
 		
 		if ($response_info['http_code'] == 200) {
 			// Filter message-id or error from response
-			if(preg_match("/id=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
+			if(preg_match("/id=([a-z0-9_%:\-]+)/i", $response_data, $matches) == 1) {
 				
 				return $matches[1];
 				
