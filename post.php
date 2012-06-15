@@ -21,13 +21,14 @@
 
 include_once('c2dm.php');
 
-$c2dm = new c2dm();
-$result = $c2dm->getAuthToken("your-gmail", "your-gmail-passwd");
+$c2dm = c2dm::getInstance();
+$result = $c2dm->getAuthToken("your-gmail", "your-gmail-passwd",
+		'Company-AppName-Version', 'HOSTED_OR_GOOGLE');
 if (!$result) {
 	echo "get auth token error";
 }
 
-$c2dm->sendMessage("long-registration ID", 1);
+$c2dm->sendMessage("long-registration ID", 'Hello, c2dm', 1);
  
 ?>
 

@@ -25,12 +25,11 @@ class c2dm {
 	
 	private static $instance = null;
 	
-	
 	private function __construct() {
 	}
 	
 	public static function getInstance() {
-		if(!c2dm::$instance) {
+		if (!c2dm::$instance) {
 			c2dm::$instance = new c2dm();
 		}
 		
@@ -80,7 +79,7 @@ class c2dm {
 		}
 		
 		// Filter Auth-Token from within the response
-		if(preg_match("/Auth=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
+		if (preg_match("/Auth=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
 			//Store Auth-Token
 			$this->authString = $matches[1];
 			
@@ -97,7 +96,7 @@ class c2dm {
 	public function sendMessage($deviceRegistrationId, $message, $msgType) {
 		
 		// Check whether service is allready authenticated
-		if(strlen($this->authString) == 0) {
+		if (strlen($this->authString) == 0) {
 			throw new Exception("Not authenticated");
 		}
 		
@@ -127,25 +126,18 @@ class c2dm {
 		
 		if ($response_info['http_code'] == 200) {
 			// Filter message-id or error from response
-			if(preg_match("/id=([a-z0-9_%:\-]+)/i", $response_data, $matches) == 1) {
-				
+			if (preg_match("/id=([a-z0-9_%:\-]+)/i", $response_data, $matches) == 1) {
 				return $matches[1];
-				
-			} else if(preg_match("/Error=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
-				
+			} else if (preg_match("/Error=([a-z0-9_\-]+)/i", $response_data, $matches) == 1) {
 				throw new Exception($matches[1]);
-				
 			}
 		} else if ($response_info['http_code'] == 401) {
-			
 			throw new Exception("Not authenticated");
-			
 		} else if ($response_info['http_code'] == 503) {
-			
 			throw new Exception("Service Unavailable");
-			
 		}
 
 		return false;
 	}
 }
+
